@@ -1,0 +1,32 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    # 매일 오후 3시 (UTC 6:00 = KST 15:00)에 실행
+    - cron: '0 6 * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Make changes and commit
+        run: |
+          echo "Auto commit - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> commit-data.txt
+          git add commit-data.txt
+          git commit -m "Auto commit: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+      - name: Push changes
+        run: |
+          git push

@@ -22,3 +22,6 @@ GitHub Actions 사용 (권장) ⭐
 3. 매일 오후 11시에 실행
 4. 수동 테스트: node auto-commit.js
 5. 제거: schtasks /Delete /TN "DailyAutoCommit" /F
+
+
+테스트
